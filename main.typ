@@ -13,4 +13,43 @@
 
 #slide(theme-variant: "title slide")
 
+
 #new-section("Language design")
+
+#slide(title: "History")[
+  Developed at Mozilla
+  
+  Used in Servo, an "experimental parallel browser engine"
+
+  Goals:
+  - Replacement for C/C++
+  - Safe
+  - Performant
+  - Modern
+]
+
+#slide(title: "Distinguishing features")[
+  - Ownership
+    - Affine types
+  - Borrowing
+    - Mutually exclusive sharing and mutability
+  - `Send` and `Sync`
+    - compile time checked concurrency TODO
+]
+
+
+#new-section("Standard Library")
+
+#slide[
+  - Threads
+  - `Mutex`, `RwLock`, `CondVar`, atomics
+  - Mpsc channels
+]
+
+#slide(title: "Threads")[
+  - OS threads by default
+  - Lifetimes checked
+  - 
+]
+
+// TODO: Multiple slides for this?
