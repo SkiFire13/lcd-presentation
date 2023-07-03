@@ -6,7 +6,7 @@
 #show: slides.with(
   title: "Concurrency in Rust",
   authors: "Giacomo Stevanato",
-  date: "June 2023",
+  date: "July 2023",
   aspect-ratio: "4-3",
   theme: unipd-theme(),
 )
