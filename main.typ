@@ -111,7 +111,7 @@
   ```
   #h(1em)
   ```rs
-  impl<'scope> Scope<'scope> {
+  impl<'scope, 'env> Scope<'scope, 'env> {
       pub fn spawn<F, T>(&'scope self, f: F)
           -> ScopedJoinHandle<'scope, T>
       where
