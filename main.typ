@@ -26,6 +26,8 @@
   - Safe
   - Performant
   - Modern
+
+  First stable version released in 2015
 ]
 
 #slide(title: "Features")[
@@ -44,32 +46,38 @@
   - Affine types or move semantics
   
   - A value can be "consumed" *at most* once
+
+  - Used to handle deallocation and release of resources
 ]
 
 #slide(title: "Borrowing")[
-  - Distintion between exclusive and shared access
+  - Separation between exclusive and shared access
   
-  - Mutability needs exclusive access by default
+  - Similar to Read-Write locks, but checked at compile time
   
-  - Inspired by Read-Write locks
+  - By default exclusivity is required for mutation
 
-  - TODO: Niko's PHD Thesis?
+  - Shared mutability is allowed by with some restrictions
+
+    - For example: `Mutex`
+
+  // - TODO: Niko's PHD Thesis?
 ]
 
 #slide(title: "Lifetimes")[
-  - Track the scope in which references are valid
+  - Needed to enforce borrowing
 
-  - Neede to enforce borrowing
+  - Track the scope in which access is granted
 
   - Can be used by library code to enforce restrictions
 ]
 
 #slide(title: [ `Send` and `Sync` ])[
-  - Traits automatically implemented
+  - Traits automatically implemented based on fields
 
-  - `Send` means a value can be sent to a different thread
+  - `Send` allows sending a value to a different thread
 
-  - `Sync` means a value can be shared between different threads
+  - `Sync` allows sharing a value between different threads
 ]
 
 #new-section("Standard Library")
@@ -77,24 +85,23 @@
 #slide[
   - Threads
   
-  - `Mutex`, `RwLock`, `CondVar`, atomics
+  - `Mutex`, `RwLock`, `CondVar`, atomics, etc etc
   
   - Mpsc channels
 ]
 
 #slide(title: "Threads")[
-  - OS threads by default
+  - Heavy OS threads
   
   - `std::thread::spawn`
-    - creates and detaches a new thread  
-    - data captured needs to be `'static`
+    - creates and detaches a new thread
   
   - `std::thread::scope`
     - creates a scope that can borrow from the environment
     - provides structured concurrency (partially)
+    - ends when the child threads end
+    - propagate unrecoverable errors
 ]
-
-// TODO: example code
 
 #slide[
   ```rs
@@ -111,15 +118,35 @@
   ```
   #h(1em)
   ```rs
-  impl<'scope, 'env> Scope<'scope, 'env> {
-      pub fn spawn<F, T>(&'scope self, f: F)
-          -> ScopedJoinHandle<'scope, T>
+  impl<'scp, 'env> Scope<'scp, 'env> {
+      pub fn spawn<F, T>(&'scp self, f: F)
+          -> ScopedJoinHandle<'scp, T>
       where
-          F: FnOnce() -> T + Send + 'scope,
-          T: Send + 'scope,
+          F: FnOnce() -> T + Send + 'scp,
+          T: Send + 'scp,
   }
-  ```  
+  ```
 ]
+
+#slide(title: [ `Mutex` and `RwLock` ])[
+  - Protect data instead of critical regions
+
+  - Acquiring the lock yields a "guard" with access to the data
+  
+  - Ownership ensures the lock is released
+]
+
+#slide(title: "Mpsc channels")[
+  - A bit lacking
+
+    - No multiple consumers
+
+    - No non-deterministic choice
+
+  - Multiple libraries extend them with better interface
+]
+
+// TODO: example code for all stdlib
 
 #slide(title: "Data parallelism")[
   - `rayon`
