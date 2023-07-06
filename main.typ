@@ -59,7 +59,7 @@
 
   - Shared mutability is allowed by with some restrictions
 
-    - For example: `Mutex`
+    - For example: `Mutex`, `RwLock`, `Atomic*`, `RefCell`
 
   // - TODO: Niko's PHD Thesis?
 ]
@@ -85,7 +85,7 @@
 #slide[
   - Threads
   
-  - `Mutex`, `RwLock`, `CondVar`, atomics, etc etc
+  - `Mutex`, `RwLock`, `CondVar`, `Atomic*`, etc etc
   
   - Mpsc channels
 ]
@@ -128,7 +128,7 @@
   ```
 ]
 
-#slide(title: [ `Mutex` and `RwLock` ])[
+#slide(title: [ `Mutex<T>` and `RwLock<T>` ])[
   - Protect data instead of critical regions
 
   - Acquiring the lock yields a "guard" with access to the data
@@ -146,16 +146,16 @@
   - Multiple libraries extend them with better interface
 ]
 
-// TODO: example code for all stdlib
+// TODO: example code for rest of stdlib
 
-#slide(title: "Data parallelism")[
-  - `rayon`
-  
-    - provides convient API for data parallelism
-  
-    - iterators guarantee disjoint access
-  
-    - with thread pooling and work stealing
+#new-section("Data parallelism")
+
+#slide(title: [ `rayon` ])[
+  - provides convient API for data parallelism
+
+  - iterators guarantee disjoint access
+
+  - with thread pooling and work stealing
 ]
 
-// TODO: example code
+// TODO: example code for rayon
