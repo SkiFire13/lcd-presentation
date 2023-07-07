@@ -150,7 +150,7 @@
 
 #new-section("Data parallelism")
 
-#slide(title: [ `rayon` ])[
+#slide(title: `rayon`)[
   - provides convient API for data parallelism
 
   - iterators guarantee disjoint access
@@ -159,3 +159,39 @@
 ]
 
 // TODO: example code for rayon
+
+#new-section("Async")
+
+#slide(title: `async`)[
+  - Alternative to lightweight threads
+
+  - Concurrency without parallelism
+
+  - Transform sequential code to a state machine
+
+  - Poll-based design
+
+  - Many details left to third party libraries
+]
+
+#slide(title: `tokio`)[
+  - Most used async runtime
+
+  - Add replacements for common non-`async` APIs
+
+  - Lot of concurrency primitives as well
+
+  // TODO: anything else?
+]
+
+// TODO: previous examples but in tokio
+// TODO: comparison when lot of threads? (Be careful pc doesn't explode)
+// TODO: example of using `join` and `select`
+
+#new-section("Other models")
+
+#slide(title: "Actor model")[
+  - `actix` implements the actor model
+]
+
+// TODO: small example (?)
