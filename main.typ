@@ -17,20 +17,34 @@
 #new-section("Language design")
 
 #slide(title: "History")[
-  Developed at Mozilla
+  - Created at Mozilla
   
-  Used in Servo, an "experimental parallel browser engine"
+  - Developed for Servo, an "experimental parallel browser engine"
 
-  Goals:
-  - Replacement for C/C++
-  - Safe
-  - Performant
-  - Modern
+  - Safer and modern replacement for C/C++
 
-  First stable version released in 2015
+  - Version 1.0 released in 2015
+
+  - Version 1.70 in June 2023
 ]
 
-#slide(title: "Features")[
+#slide(title: "Why Rust?")[
+  - Safe
+
+  - Strong type system
+
+  - Performant
+
+  - Thin abstractions over hardware and OS
+
+  - Modern
+
+  - Functional features
+]
+
+// TODO: thin abstraction -> no runtime for concurrency -> only parallelism
+
+#slide(title: "Core concepts")[
   - Ownership
   
   - Borrowing
@@ -38,8 +52,6 @@
   - Lifetimes
 
   - `Send` and `Sync`
-
-  - `async`
 ]
 
 #slide(title: "Ownership")[
@@ -48,6 +60,8 @@
   - A value can be "consumed" *at most* once
 
   - Used to handle deallocation and release of resources
+
+  // TODO: Example of move error?
 ]
 
 #slide(title: "Borrowing")[
@@ -75,7 +89,7 @@
 #slide(title: [ `Send` and `Sync` ])[
   - Traits automatically implemented based on fields
 
-  - `Send` allows sending a value to a different thread
+  - `Send` allows moving a value to a different thread
 
   - `Sync` allows sharing a value between different threads
 ]
@@ -85,9 +99,13 @@
 #slide[
   - Threads
   
-  - `Mutex`, `RwLock`, `CondVar`, `Atomic*`, etc etc
+  - `Mutex`, `RwLock`
   
   - Mpsc channels
+
+  - `Atomic*`
+  
+  - `CondVar`, `Once`, `OnceLock`, `Barrier`, etc etc
 ]
 
 #slide(title: "Threads")[
@@ -99,8 +117,8 @@
   - `std::thread::scope`
     - creates a scope that can borrow from the environment
     - provides structured concurrency (partially)
-    - ends when the child threads end
-    - propagate unrecoverable errors
+    - waits for the the child threads to stop
+    - propagates unrecoverable errors
 ]
 
 #slide[
@@ -144,6 +162,10 @@
     - No non-deterministic choice
 
   - Multiple libraries extend them with better interface
+
+  // TODO: Separation of `Sender` and `Receiver`?
+
+  // TODO: Buffering
 ]
 
 // TODO: example code for rest of stdlib
@@ -151,11 +173,13 @@
 #new-section("Data parallelism")
 
 #slide(title: `rayon`)[
-  - provides convient API for data parallelism
+  - Thread pooling and work stealing
 
-  - iterators guarantee disjoint access
+  - Fork-join
 
-  - with thread pooling and work stealing
+  - Scope (predates the stdlib one)
+
+  - Parallel iterators
 ]
 
 // TODO: example code for rayon
@@ -172,6 +196,10 @@
   - Poll-based design
 
   - Many details left to third party libraries
+
+  // TODO: cooperative, non-blocking
+
+  // TODO: Problem of missing structured concurrency + lifetimes?
 ]
 
 #slide(title: `tokio`)[
@@ -181,12 +209,16 @@
 
   - Lot of concurrency primitives as well
 
+  // TODO: JoinSet
+
   // TODO: anything else?
 ]
 
 // TODO: previous examples but in tokio
 // TODO: comparison when lot of threads? (Be careful pc doesn't explode)
 // TODO: example of using `join` and `select`
+
+// TODO: producer-consumer
 
 #new-section("Other models")
 
