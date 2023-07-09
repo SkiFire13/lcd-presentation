@@ -37,9 +37,9 @@
 
   - Thin abstractions over hardware and OS
 
-  - Modern
+  - Modern (no null, type inference, ...)
 
-  - Functional features
+  - Functional features (union types, pattern matching, ...)
 ]
 
 // TODO: thin abstraction -> no runtime for concurrency -> only parallelism
@@ -84,6 +84,8 @@
   - Track the scope in which access is granted
 
   - Can be used by library code to enforce restrictions
+
+  - Special lifetime `'static` lasts until the process stops
 ]
 
 #slide(title: [ `Send` and `Sync` ])[
@@ -113,38 +115,18 @@
   
   - `std::thread::spawn`
     - creates and detaches a new thread
+    - returns a guard that can be `join`ed
   
   - `std::thread::scope`
     - creates a scope that can borrow from the environment
-    - provides structured concurrency (partially)
+    - provides structured concurrency
     - waits for the the child threads to stop
     - propagates unrecoverable errors
 ]
 
-#slide[
-  ```rs
-  pub fn spawn<F, T>(f: F) -> JoinHandle<T>
-  where
-      F: FnOnce() -> T + Send + 'static,
-      T: Send + 'static,
-  ```
-  #h(1em)
-  ```rs
-  pub fn scope<'env, F, T>(f: F) -> T
-  where
-      F: for<'scp> FnOnce(&'scp Scope<'scp, 'env>) -> T,
-  ```
-  #h(1em)
-  ```rs
-  impl<'scp, 'env> Scope<'scp, 'env> {
-      pub fn spawn<F, T>(&'scp self, f: F)
-          -> ScopedJoinHandle<'scp, T>
-      where
-          F: FnOnce() -> T + Send + 'scp,
-          T: Send + 'scp,
-  }
-  ```
-]
+// TODO: thread example
+
+#slide(title: "Threads (example)")
 
 #slide(title: [ `Mutex<T>` and `RwLock<T>` ])[
   - Protect data instead of critical regions
@@ -155,17 +137,21 @@
 ]
 
 #slide(title: "Mpsc channels")[
-  - A bit lacking
+  - Multiple producers single consumer
 
-    - No multiple consumers
+  - Always split in sender and receiver halves
 
-    - No non-deterministic choice
+  - Two flavours:
 
-  - Multiple libraries extend them with better interface
+    - Unbounded: non-blocking send, blocking receive
 
-  // TODO: Separation of `Sender` and `Receiver`?
+    - Bounded: blocking send and receive
 
-  // TODO: Buffering
+  - Support fallible non-blocking and timeout mode
+
+  - No non-deterministic choice
+
+  - Third party libraries have better interfaces
 ]
 
 // TODO: example code for rest of stdlib
@@ -173,6 +159,8 @@
 #new-section("Data parallelism")
 
 #slide(title: `rayon`)[
+  - Utilities for plain parallelism
+
   - Thread pooling and work stealing
 
   - Fork-join
