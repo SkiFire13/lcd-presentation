@@ -51,7 +51,7 @@ fn time<T>(f: impl FnOnce() -> T) -> T {
 }
 
 fn main() {
-    let strings = (0..500_000)
+    let strings = (0..100_000)
         .map(|_| random_words(100, 4))
         .collect::<Vec<_>>();
 
