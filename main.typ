@@ -65,13 +65,13 @@
 ]
 
 #slide(title: "Borrowing")[
-  - Separation between exclusive and shared access
+  - *Shared* (`&`) vs *Exclusive* (`&mut`) access
   
-  - Similar to Read-Write locks, but checked at compile time
+  - Like compile time Read-Write locks
   
-  - By default exclusivity is required for mutation
+  - Only exclusivity allows mutation
 
-  - Shared mutability is allowed by with some restrictions
+  - Shared mutability allowed but restricted
 
     - For example: `Mutex`, `RwLock`, `Atomic*`, `RefCell`
 
@@ -79,21 +79,19 @@
 ]
 
 #slide(title: "Lifetimes")[
-  - Needed to enforce borrowing
+  - Track the *scope* in which access is granted
 
-  - Track the scope in which access is granted
-
-  - Can be used by library code to enforce restrictions
+  - Functions can use them to enforce restrictions
 
   - Special lifetime `'static` lasts until the process stops
 ]
 
 #slide(title: [ `Send` and `Sync` ])[
-  - Traits automatically implemented based on fields
+  - Traits automatically implemented
 
-  - `Send` allows moving a value to a different thread
+  - `Send` allows *moving* a value to a different thread
 
-  - `Sync` allows sharing a value between different threads
+  - `Sync` allows *sharing* a value between different threads
 ]
 
 #new-section("Standard Library")
@@ -114,19 +112,17 @@
   - Heavy OS threads
   
   - `std::thread::spawn`
-    - creates and detaches a new thread
-    - returns a guard that can be `join`ed
-  
+    
+    - creates a new detached thread
+
   - `std::thread::scope`
-    - creates a scope that can borrow from the environment
-    - provides structured concurrency
-    - waits for the the child threads to stop
-    - propagates unrecoverable errors
+
+    - can borrow from the environment
+    
+    - structured concurrency
 ]
 
 // TODO: thread example
-
-#slide(title: "Threads (example)")
 
 #slide(title: [ `Mutex<T>` and `RwLock<T>` ])[
   - Protect data instead of critical regions
@@ -139,7 +135,7 @@
 #slide(title: "Mpsc channels")[
   - Multiple producers single consumer
 
-  - Always split in sender and receiver halves
+  - Split in `Sender` and `Receiver`
 
   - Two flavours:
 
@@ -147,11 +143,9 @@
 
     - Bounded: blocking send and receive
 
-  - Support fallible non-blocking and timeout mode
+  - Fallible non-blocking and timeout mode
 
   - No non-deterministic choice
-
-  - Third party libraries have better interfaces
 ]
 
 // TODO: example code for rest of stdlib
@@ -159,8 +153,6 @@
 #new-section("Data parallelism")
 
 #slide(title: `rayon`)[
-  - Utilities for plain parallelism
-
   - Thread pooling and work stealing
 
   - Fork-join
