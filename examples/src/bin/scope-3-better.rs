@@ -1,9 +1,7 @@
 use std::thread::sleep;
-use std::time::{Duration, Instant};
+use std::time::Duration;
 
 fn main() {
-    let now = Instant::now();
-
     let (a, b) = (3, 4);
     let (sum, product) = std::thread::scope(|scp| {
         let sum = scp.spawn(|| {
@@ -17,6 +15,4 @@ fn main() {
         (sum.join().unwrap(), product.join().unwrap())
     });
     println!("sum = {sum}, product = {product}");
-
-    println!("Took {:?}", now.elapsed());
 }

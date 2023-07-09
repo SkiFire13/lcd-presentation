@@ -1,9 +1,7 @@
 use std::thread::sleep;
-use std::time::{Duration, Instant};
+use std::time::Duration;
 
 fn main() {
-    let now = Instant::now();
-
     let (a, b) = (3, 4);
     let (mut sum, mut product) = (0, 0);
 
@@ -19,6 +17,4 @@ fn main() {
     });
 
     println!("sum = {sum}, product = {product}");
-
-    println!("Took {:?}", now.elapsed());
 }
