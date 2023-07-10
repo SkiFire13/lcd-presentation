@@ -1,16 +1,23 @@
+#[allow(unused_imports)]
+use rayon::prelude::*;
 use std::thread::sleep;
 use std::time::Duration;
 
-use rayon::prelude::*;
-
 fn main() {
-    let result = (0..20)
+    let mut some_numbers = (0..10)
         .into_par_iter()
         .map(|n| {
-            sleep(Duration::from_secs(1));
+            sleep(Duration::from_millis(250));
             n + 1
         })
         .collect::<Vec<_>>();
 
-    println!("{result:?}");
+    println!("{some_numbers:?}");
+
+    some_numbers.par_iter_mut().for_each(|n| {
+        sleep(Duration::from_millis(250));
+        *n *= 2;
+    });
+
+    println!("{some_numbers:?}");
 }
