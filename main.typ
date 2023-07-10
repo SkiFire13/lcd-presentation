@@ -11,7 +11,7 @@
   theme: unipd-theme(),
 )
 
-#slide(theme-variant: "title slide")
+#slide(theme-variant: "title")
 
 
 #new-section("Language design")
@@ -169,27 +169,25 @@
 
   - Concurrency without parallelism
 
-  - Poll-based
+  - Cooperative, poll-based, non-blocking
 
-  - Compiled to a state machine
+  - Based on the `Future` trait
 
-  - Integration left to third party libraries
+  - Runtimes and integration left to third party libraries
 
-  // TODO: cooperative, non-blocking
-
-  // TODO: Problem of missing structured concurrency + lifetimes?
+    - For example: `tokio`, `async-std`, `pollster`, etc etc
 ]
 
 #slide(title: `tokio`)[
-  - Most used async runtime
+  - Standard async runtime _de facto_
 
-  - Add replacements for common non-`async` APIs
+  - Replacement for non-`async` APIs:
 
-  - Lot of concurrency primitives
+    - `AsyncRead`/`AsyncWrite`, `File`s, `TCP`/`UDP`, `sleep`, etc etc
 
-  // TODO: JoinSet
+  - Lot of `async` concurrency primitives:
 
-  // TODO: anything else?
+    - `spawn`, `select`, `timeout`, `join`, `channel`, `Mutex`, etc etc
 ]
 
 // TODO: coffee example
@@ -197,10 +195,24 @@
 
 // TODO: producer-consumer
 
-#new-section("Other models")
+// TODO: Make list with `timeout`, `join` and other APIs
 
-#slide(title: "Actor model")[
-  - `actix` implements the actor model
+#new-section("Other")
+
+#slide(title: [ Actor model: `actix` ] )[
+  - Built on `async` and `tokio`
+
+  - `Actor` trait for basic lifecycle
+
+    - starting an actor returns its `Addr`
+
+  - `Handler<M>` trait for handling messages
+
+    - supports multiple message types
+
+    - messages can have a response type
 ]
 
-// TODO: small example (?)
+#slide(theme-variant: "end")[
+  Thank you for your attention
+]
