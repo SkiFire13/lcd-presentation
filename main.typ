@@ -145,7 +145,7 @@
 
   - Fallible non-blocking and timeout mode
 
-  - No non-deterministic choice
+  - No "guarded sum"
 ]
 
 // TODO: example code for rest of stdlib
@@ -162,8 +162,6 @@
   - Parallel iterators
 ]
 
-// TODO: example code for rayon
-
 #new-section("Async")
 
 #slide(title: `async`)[
@@ -171,11 +169,11 @@
 
   - Concurrency without parallelism
 
-  - Transform sequential code to a state machine
+  - Poll-based
 
-  - Poll-based design
+  - Compiled to a state machine
 
-  - Many details left to third party libraries
+  - Integration left to third party libraries
 
   // TODO: cooperative, non-blocking
 
@@ -187,15 +185,14 @@
 
   - Add replacements for common non-`async` APIs
 
-  - Lot of concurrency primitives as well
+  - Lot of concurrency primitives
 
   // TODO: JoinSet
 
   // TODO: anything else?
 ]
 
-// TODO: previous examples but in tokio
-// TODO: comparison when lot of threads? (Be careful pc doesn't explode)
+// TODO: coffee example
 // TODO: example of using `join` and `select`
 
 // TODO: producer-consumer
