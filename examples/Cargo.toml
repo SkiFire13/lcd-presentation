@@ -11,3 +11,4 @@ rayon = "1.7"
 image = "0.24"
 num-complex = "0.4"
 tokio = { version = "1.29", features = [ "macros", "rt-multi-thread", "sync", "time" ] }
+actix = "0.13"
