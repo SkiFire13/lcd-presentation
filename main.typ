@@ -33,11 +33,11 @@
 
   - Strong type system
 
-  - Performant
+  - Fast
 
   - Thin abstractions over hardware and OS
 
-  - Modern (no null, type inference, ...)
+  - Modern (no null, type inference, traits, ...)
 
   - Functional features (union types, pattern matching, ...)
 ]
@@ -57,7 +57,7 @@
 #slide(title: "Ownership")[
   - Affine types or move semantics
   
-  - A value can be "consumed" *at most* once
+  - A value can be "consumed"/"moved" *at most once*
 
   - Used to handle deallocation and release of resources
 
@@ -130,6 +130,8 @@
   - Acquiring the lock yields a "guard" with access to the data
   
   - Ownership ensures the lock is released
+
+  - Borrowing ensures you can't forget to use/lock them
 ]
 
 #slide(title: "Mpsc channels")[

@@ -7,18 +7,18 @@ fn main() {
         // `spawn` returns a handle that can be `join`ed to
         // get the thread result. This is better than uselessly
         // mutating values.
-        let sum = scp.spawn(|| {
+        let sum_handle = scp.spawn(|| {
             sleep(Duration::from_secs(1));
             a + b
         });
 
-        let product = scp.spawn(|| {
+        let product_handle = scp.spawn(|| {
             sleep(Duration::from_secs(1));
             a * b
         });
 
         // `scope` can also return values.
-        (sum.join().unwrap(), product.join().unwrap())
+        (sum_handle.join().unwrap(), product_handle.join().unwrap())
     });
     println!("sum = {sum}, product = {product}");
 }

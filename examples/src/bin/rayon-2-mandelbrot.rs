@@ -22,7 +22,7 @@ fn main() {
     // Uncomment the `.into_par_iter()` to see a big speed-up
     let pixels = (0..width * height)
         // .into_par_iter()
-        .map(|i| {
+        .flat_map(|i| {
             let (px, py) = (i % width, i / width);
 
             let x = x0 + (offx * px as f64) / width as f64;
@@ -43,9 +43,10 @@ fn main() {
                 0.
             };
 
-            color_in.map2(&color_out, |s, e| (s as f64 + (e - s) as f64 * speed) as u8)
+            let Rgb(components) =
+                color_in.map2(&color_out, |s, e| (s as f64 + (e - s) as f64 * speed) as u8);
+            components
         })
-        .flat_map(|Rgb(components)| components)
         .collect();
 
     let image = RgbImage::from_vec(width, height, pixels).expect("Couldn't create image");

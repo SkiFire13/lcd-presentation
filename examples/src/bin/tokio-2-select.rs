@@ -26,9 +26,7 @@ async fn main() {
     });
 
     let some_future = async {
-        // 251 milliseconds because the two `send`
-        // will always finish executing last.
-        tokio::time::sleep(Duration::from_millis(251)).await;
+        tokio::time::sleep(Duration::from_millis(250)).await;
         "Some future"
     };
 
