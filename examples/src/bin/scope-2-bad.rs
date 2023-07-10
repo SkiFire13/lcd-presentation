@@ -12,6 +12,8 @@ fn main() {
         });
         scp.spawn(|| {
             sleep(Duration::from_secs(1));
+            // This thread is mutating `sum` again, and this conflicts
+            // with the first one. Hence a compile time error.
             sum = a * b;
         });
     });

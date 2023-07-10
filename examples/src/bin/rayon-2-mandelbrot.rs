@@ -19,6 +19,7 @@ fn main() {
     let color_in = Rgb([0, 0, 0]);
     let color_out = Rgb([15, 0, 0]);
 
+    // Uncomment the `.into_par_iter()` to see a big speed-up
     let pixels = (0..width * height)
         // .into_par_iter()
         .map(|i| {
